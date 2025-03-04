@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebAdmin.Db;
 
@@ -10,9 +11,10 @@ using WebAdmin.Db;
 namespace WebAdmin.Migrations
 {
     [DbContext(typeof(WebDb))]
-    partial class WebDbModelSnapshot : ModelSnapshot
+    [Migration("20250304074252_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.36");
@@ -39,6 +41,10 @@ namespace WebAdmin.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("TEXT")
                         .HasColumnName("姓名");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("状态");
 
                     b.HasKey("Id");
 

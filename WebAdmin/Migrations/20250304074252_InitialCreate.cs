@@ -13,17 +13,17 @@ namespace WebAdmin.Migrations
                 name: "SiteModels",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "INTEGER", nullable: false)
+                    任务Id = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Address = table.Column<string>(type: "TEXT", nullable: true),
-                    Name = table.Column<string>(type: "TEXT", nullable: true),
-                    Description = table.Column<string>(type: "TEXT", nullable: true),
-                    LastScanTime = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Status = table.Column<bool>(type: "INTEGER", nullable: false)
+                    网址 = table.Column<string>(type: "TEXT", nullable: true),
+                    姓名 = table.Column<string>(type: "TEXT", nullable: true),
+                    描述 = table.Column<string>(type: "TEXT", nullable: true),
+                    最后扫描时间 = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    状态 = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SiteModels", x => x.Id);
+                    table.PrimaryKey("PK_SiteModels", x => x.任务Id);
                 });
         }
 

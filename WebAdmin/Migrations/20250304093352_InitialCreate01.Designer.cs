@@ -11,8 +11,8 @@ using WebAdmin.Db;
 namespace WebAdmin.Migrations
 {
     [DbContext(typeof(WebDb))]
-    [Migration("20250304072212_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250304093352_InitialCreate01")]
+    partial class InitialCreate01
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,22 +23,24 @@ namespace WebAdmin.Migrations
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("任务Id");
 
                     b.Property<string>("Address")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("网址");
 
                     b.Property<string>("Description")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("描述");
 
                     b.Property<DateTime>("LastScanTime")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("最后扫描时间");
 
                     b.Property<string>("Name")
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("Status")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("姓名");
 
                     b.HasKey("Id");
 
