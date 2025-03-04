@@ -27,7 +27,7 @@ public static class Tools
     public static async Task<bool> IsWebsiteUp(string url)
     {
         string newUrl = CorrectWebsite(url);
-        using HttpClient client = new() { Timeout = TimeSpan.FromSeconds(10) };
+        using HttpClient client = new() { Timeout = TimeSpan.FromSeconds(5) };
         HttpResponseMessage response = await client.GetAsync(newUrl, HttpCompletionOption.ResponseHeadersRead);
         return response.IsSuccessStatusCode; // 2xx 视为网站正常
     }

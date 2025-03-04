@@ -77,6 +77,10 @@ public class WebStatusViewModel : BindableBase
     private async Task GetDbAsync()
     {
         IsOpen = true;
+        var list = await webDb.SiteModels.ToListAsync();
+        list.ForEach(site => site.Description = string.Empty);
+        await webDb.SaveChangesAsync(); 
+
         SiteModels = new ObservableCollection<SiteModel>(await webDb.SiteModels.ToListAsync()); // 异步加载数据库数据
         IsOpen = false;
     }
