@@ -48,7 +48,7 @@
                 <RowDefinition
                     Height="*" />
                 <RowDefinition
-                    Height="100" />
+                    Height="60" />
             </Grid.RowDefinitions>
             <!--  表格  -->
             <DataGrid
@@ -64,10 +64,19 @@
                         Header="操作">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Button
-                                    Command="{Binding DataContext.OpenUrlCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                                    CommandParameter="{Binding}"
-                                    Content="打开链接" />
+                                <StackPanel
+                                    Orientation="Horizontal">
+                                    <Button
+                                        Margin="0,0,5,0"
+                                        Command="{Binding DataContext.OpenUrlCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                        CommandParameter="{Binding}"
+                                        Content="{materialDesign:PackIcon CursorPointer}" />
+                                    <Button
+                                        Command="{Binding DataContext.CopyCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                        CommandParameter="{Binding}"
+                                        Content="{materialDesign:PackIcon ContentCopy}" />
+                                </StackPanel>
+
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

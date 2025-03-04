@@ -8,7 +8,7 @@ namespace WebAdmin.ViewModels;
 
 public class MainWindowViewModel : BindableBase
 {
-    private string _title = "Prism Application";
+    private string _title = "WebAdmin";
     private readonly IRegionManager regionManager;
     public string Title
     {

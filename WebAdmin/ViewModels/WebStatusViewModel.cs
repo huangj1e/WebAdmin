@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Castle.Core.Internal;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Xaml.Behaviors.Core;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -8,10 +9,13 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
+using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 using WebAdmin.Db;
 using WebAdmin.Models;
 using WebAdmin.Units;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace WebAdmin.ViewModels;
 
@@ -82,7 +86,7 @@ public class WebStatusViewModel : BindableBase
 
     private void ExecuteOpenUrlCommand(object obj)
     {
-        if(obj is not SiteModel siteModel)
+        if (obj is not SiteModel siteModel)
         {
             MessageString = "未知的网站";
             return;
@@ -90,6 +94,29 @@ public class WebStatusViewModel : BindableBase
         string newUrl = Tools.CorrectWebsite(siteModel.Address);
         MessageString = Tools.OpenUrl(newUrl);
     }
+
+
+    private DelegateCommand<object> _copyCommand;
+    public DelegateCommand<object> CopyCommand => _copyCommand ??= new DelegateCommand<object>(ExecuteCopyCommand);
+
+    void ExecuteCopyCommand(object obj)
+    {
+        if (obj is not SiteModel siteModel)
+        {
+            MessageString = "未知的网站";
+            return;
+        }
+
+        if (string.IsNullOrEmpty(siteModel.Address)) return;
+
+        Clipboard.SetDataObject(siteModel.Address);
+        MessageString = $"复制成功：{siteModel.Address}";
+
+    }
+
+
+
+
 
     public async Task RefreshDataAsync()
     {
