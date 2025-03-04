@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:viewmodels="clr-namespace:WebAdmin.ViewModels"
@@ -11,7 +12,72 @@
     d:Width="800"
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
-    <Grid>
-        <DataGrid ItemsSource="{Binding }"></DataGrid>
-    </Grid>
+    <!--  弹窗  -->
+    <materialDesign:DialogHost
+        IsOpen="{Binding IsOpen}">
+        <materialDesign:DialogHost.DialogContent>
+            <StackPanel
+                Margin="20">
+                <ProgressBar
+                    Width="100"
+                    Height="100"
+                    Margin="5"
+                    IsIndeterminate="True"
+                    Style="{StaticResource MaterialDesignCircularProgressBar}"
+                    Value="0" />
+                <Button
+                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                    Content="取消"
+                    Style="{StaticResource MaterialDesignFlatButton}" />
+            </StackPanel>
+        </materialDesign:DialogHost.DialogContent>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition
+                    Height="*" />
+                <RowDefinition
+                    Height="50" />
+            </Grid.RowDefinitions>
+            <!--  表格  -->
+            <DataGrid
+                AutoGenerateColumns="False"
+                ItemsSource="{Binding SiteModels}"
+                RowEditEnding="DataGrid_RowEditEnding">
+                <DataGrid.Columns>
+                    <DataGridTextColumn
+                        Binding="{Binding Id, StringFormat={}{0:D4}}"
+                        Header="编号"
+                        IsReadOnly="True" />
+                    <DataGridTextColumn
+                        Binding="{Binding Address}"
+                        Header="网址" />
+                    <DataGridTextColumn
+                        Binding="{Binding Name}"
+                        Header="姓名" />
+
+                    <DataGridCheckBoxColumn
+                        Binding="{Binding Status}"
+                        Header="状态"
+                        IsReadOnly="True" />
+                    <DataGridTextColumn
+                        Binding="{Binding LastScanTime}"
+                        Header="最后扫描时间"
+                        IsReadOnly="True" />
+                    <DataGridTextColumn
+                        MinWidth="300"
+                        Binding="{Binding Description}"
+                        Header="错误描述"
+                        IsReadOnly="True" />
+                </DataGrid.Columns>
+            </DataGrid>
+            <StackPanel
+                Grid.Row="1"
+                VerticalAlignment="Center"
+                Background="Red">
+                <Button
+                    Command="{Binding UpdateCommand}"
+                    Content="刷新" />
+            </StackPanel>
+        </Grid>
+    </materialDesign:DialogHost>
 </UserControl>
