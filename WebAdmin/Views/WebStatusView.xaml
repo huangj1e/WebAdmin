@@ -12,7 +12,6 @@
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
     <Grid>
-        <TextBlock
-            Text="3330" />
+        <DataGrid ItemsSource="{Binding }"></DataGrid>
     </Grid>
 </UserControl>

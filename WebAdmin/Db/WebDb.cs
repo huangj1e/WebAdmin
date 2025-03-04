@@ -34,6 +34,11 @@ public class WebDb : DbContext
     {
         base.OnConfiguring(optionsBuilder);//一定要写
         optionsBuilder.UseLazyLoadingProxies(); //启用延迟加载
+        //optionsBuilder.UseSqlite($"Data Source={DbPath}");//迁移时使用
     }
 
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+    }
 }
