@@ -11,20 +11,32 @@
     d:Height="600"
     d:Width="800"
     prism:ViewModelLocator.AutoWireViewModel="True"
+    Background="#333"
     mc:Ignorable="d">
     <!--  弹窗  -->
     <materialDesign:DialogHost
         IsOpen="{Binding IsOpen}">
+        <!--  IsOpen="{Binding IsOpen}">  -->
         <materialDesign:DialogHost.DialogContent>
             <StackPanel
                 Margin="20">
-                <ProgressBar
-                    Width="100"
-                    Height="100"
-                    Margin="5"
-                    IsIndeterminate="True"
-                    Style="{StaticResource MaterialDesignCircularProgressBar}"
-                    Value="0" />
+                <Grid>
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="48"
+                        FontWeight="Bold"
+                        Opacity=".8"
+                        Text="{Binding TimeValue}" />
+                    <ProgressBar
+                        Width="100"
+                        Height="100"
+                        Margin="5"
+                        IsIndeterminate="True"
+                        Style="{StaticResource MaterialDesignCircularProgressBar}"
+                        Value="0" />
+                </Grid>
+
                 <Button
                     Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
                     Content="取消"
@@ -36,7 +48,7 @@
                 <RowDefinition
                     Height="*" />
                 <RowDefinition
-                    Height="50" />
+                    Height="100" />
             </Grid.RowDefinitions>
             <!--  表格  -->
             <DataGrid
@@ -48,6 +60,18 @@
                         Binding="{Binding Id, StringFormat={}{0:D4}}"
                         Header="编号"
                         IsReadOnly="True" />
+                    <DataGridTemplateColumn
+                        Header="操作">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button
+                                    Command="{Binding DataContext.OpenUrlCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                    CommandParameter="{Binding}"
+                                    Content="打开链接" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
                     <DataGridTextColumn
                         Binding="{Binding Address}"
                         Header="网址" />
@@ -72,11 +96,16 @@
             </DataGrid>
             <StackPanel
                 Grid.Row="1"
-                VerticalAlignment="Center"
-                Background="Red">
+                Margin="5"
+                VerticalAlignment="Center">
                 <Button
+                    VerticalAlignment="Bottom"
                     Command="{Binding UpdateCommand}"
                     Content="刷新" />
+                <TextBlock
+                    Margin="0,5,0,0"
+                    Foreground="White"
+                    Text="{Binding MessageString}" />
             </StackPanel>
         </Grid>
     </materialDesign:DialogHost>

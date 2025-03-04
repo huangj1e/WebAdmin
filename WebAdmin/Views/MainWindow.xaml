@@ -9,9 +9,10 @@
     xmlns:viewmodels="clr-namespace:WebAdmin.ViewModels"
     Title="{Binding Title}"
     Width="1280"
-    Height="720"
+    Height="960"
     d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel}"
     prism:ViewModelLocator.AutoWireViewModel="True"
+    WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <Grid>
         <ContentControl

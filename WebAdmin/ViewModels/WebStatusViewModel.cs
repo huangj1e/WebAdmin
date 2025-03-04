@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows.Input;
 using WebAdmin.Db;
 using WebAdmin.Models;
@@ -25,6 +26,21 @@ public class WebStatusViewModel : BindableBase
         set { SetProperty(ref _isOpen, value); }
     }
 
+    private string _messageString;
+
+    public string MessageString
+    {
+        get { return _messageString; }
+        set { SetProperty(ref _messageString, value); }
+    }
+
+    private int _timeValue;
+
+    public int TimeValue
+    {
+        get { return _timeValue; }
+        set { SetProperty(ref _timeValue, value); }
+    }
 
     private ObservableCollection<SiteModel> _siteModels;
     public ObservableCollection<SiteModel> SiteModels
@@ -37,7 +53,21 @@ public class WebStatusViewModel : BindableBase
     {
         this.webDb = webDb;
         _ = GetDbAsync();
-        _ = updateWebStatus();
+        StartTimer();
+    }
+    Timer _timer;
+
+    private void StartTimer()
+    {
+        _timer = new Timer(1000); // 设置定时间隔为1秒
+        _timer.Elapsed += OnTimedEvent;
+        _timer.AutoReset = true;
+        _timer.Enabled = true;
+    }
+
+    private void OnTimedEvent(Object source, ElapsedEventArgs e)
+    {
+        TimeValue++;
     }
 
     private async Task GetDbAsync()
@@ -47,20 +77,23 @@ public class WebStatusViewModel : BindableBase
         IsOpen = false;
     }
 
-    /// <summary>
-    /// 刷新网站状态
-    /// </summary>
-    private async Task updateWebStatus()
+    private DelegateCommand<object> _openUrlCommand;
+    public DelegateCommand<object> OpenUrlCommand => _openUrlCommand ??= new DelegateCommand<object>(ExecuteOpenUrlCommand);
+
+    private void ExecuteOpenUrlCommand(object obj)
     {
-        IsOpen = true;
-        await Task.Delay(500); // 模拟任务，防止 UI 闪烁
-        var updateTasks = SiteModels.Select(site => site.UpdateStatus());
-        await Task.WhenAll(updateTasks);
-        IsOpen = false;
+        if(obj is not SiteModel siteModel)
+        {
+            MessageString = "未知的网站";
+            return;
+        }
+        string newUrl = Tools.CorrectWebsite(siteModel.Address);
+        MessageString = Tools.OpenUrl(newUrl);
     }
 
     public async Task RefreshDataAsync()
     {
+        TimeValue = 0;
         IsOpen = true;
 
         var sites = await webDb.SiteModels.ToListAsync();
