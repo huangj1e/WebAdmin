@@ -1,19 +1,23 @@
 ﻿using Prism.Mvvm;
+using Prism.Regions;
+using System.Windows.Navigation;
+using WebAdmin.Units;
+using WebAdmin.Views;
 
-namespace WebAdmin.ViewModels
+namespace WebAdmin.ViewModels;
+
+public class MainWindowViewModel : BindableBase
 {
-    public class MainWindowViewModel : BindableBase
+    private string _title = "Prism Application";
+    private readonly IRegionManager regionManager;
+    public string Title
     {
-        private string _title = "Prism Application";
-        public string Title
-        {
-            get { return _title; }
-            set { SetProperty(ref _title, value); }
-        }
+        get { return _title; }
+        set { SetProperty(ref _title, value); }
+    }
 
-        public MainWindowViewModel()
-        {
-
-        }
+    public MainWindowViewModel(IRegionManager regionManager)
+    {
+        this.regionManager = regionManager;
     }
 }

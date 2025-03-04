@@ -5,9 +5,12 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebAdmin;
-public static class Units
+namespace WebAdmin.Units;
+public static class Tools
 {
+
+
+
     public static async Task<bool> IsWebsiteUp(string url)
     {
         using HttpClient client = new();

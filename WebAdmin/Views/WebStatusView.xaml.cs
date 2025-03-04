@@ -1,15 +1,14 @@
 ﻿using System.Windows.Controls;
 
-namespace WebAdmin.Views
+namespace WebAdmin.Views;
+
+/// <summary>
+/// Interaction logic for WebStatusView
+/// </summary>
+public partial class WebStatusView : UserControl
 {
-    /// <summary>
-    /// Interaction logic for WebStatusView
-    /// </summary>
-    public partial class WebStatusView : UserControl
+    public WebStatusView()
     {
-        public WebStatusView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }
