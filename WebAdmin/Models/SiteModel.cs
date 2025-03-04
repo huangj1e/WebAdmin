@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Prism.Mvvm;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace WebAdmin.Models;
 
-public class SiteModel
+public class SiteModel : BindableBase
 {
     [Key]
     [Display(Name = "Site ID")]
