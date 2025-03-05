@@ -15,7 +15,6 @@ using System.Windows.Threading;
 using WebAdmin.Db;
 using WebAdmin.Models;
 using WebAdmin.Units;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace WebAdmin.ViewModels;
 

@@ -1,17 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
-    <ApplicationIcon>WebAdminLogo.ico</ApplicationIcon>
   </PropertyGroup>
-  <ItemGroup>
-    <Content Include="WebAdminLogo.ico" />
-  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\WebAdmin.Core\WebAdmin.Core.csproj" />
-    <ProjectReference Include="..\WebAdmin.Db\WebAdmin.Db.csproj" />
-    <ProjectReference Include="..\WebAdmin.Models\WebAdmin.Models.csproj" />
     <ProjectReference Include="..\WebAdmin.Units\WebAdmin.Units.csproj" />
   </ItemGroup>
+
 </Project>

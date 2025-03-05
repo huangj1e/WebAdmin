@@ -70,7 +70,7 @@ public class SiteModel : BindableBase
         set { SetProperty(ref _status, value); }
     }
 
-    async internal Task UpdateStatus()
+    public async  Task UpdateStatus()
     {
         if (Address != null)
         {
