@@ -8,11 +8,11 @@ using WebAdmin.Db;
 
 #nullable disable
 
-namespace WebAdmin.Migrations
+namespace WebAdmin.Db.Migrations
 {
     [DbContext(typeof(WebDb))]
-    [Migration("20250304093352_InitialCreate01")]
-    partial class InitialCreate01
+    [Migration("20250305040154_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,10 +27,12 @@ namespace WebAdmin.Migrations
                         .HasColumnName("任务Id");
 
                     b.Property<string>("Address")
+                        .IsRequired()
                         .HasColumnType("TEXT")
                         .HasColumnName("网址");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("TEXT")
                         .HasColumnName("描述");
 
@@ -39,6 +41,7 @@ namespace WebAdmin.Migrations
                         .HasColumnName("最后扫描时间");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("TEXT")
                         .HasColumnName("姓名");
 

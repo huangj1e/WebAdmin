@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WebAdmin.Models;
+using WebAdmin.Units;
 
 namespace WebAdmin.Db;
 
@@ -12,7 +13,7 @@ public class WebDb : DbContext
 {
     public DbSet<SiteModel> SiteModels { get; set; }
 
-    public string DbPath { get; }
+    public string DbPath { get; set; }
 
 
     public WebDb()
@@ -34,7 +35,11 @@ public class WebDb : DbContext
     {
         base.OnConfiguring(optionsBuilder);//一定要写
         optionsBuilder.UseLazyLoadingProxies(); //启用延迟加载
-        //optionsBuilder.UseSqlite($"Data Source={DbPath}");//迁移时使用
+
+        // 只有在迁移时使用 SQLite
+        DbPath = Tools.GetAndCreatDbFilePath();
+        optionsBuilder.UseSqlite($"Data Source={DbPath}");
+
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -8,11 +8,11 @@ using WebAdmin.Db;
 
 #nullable disable
 
-namespace WebAdmin.Migrations
+namespace WebAdmin.Db.Migrations
 {
     [DbContext(typeof(WebDb))]
-    [Migration("20250304074252_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250305040529_InitialCreate01")]
+    partial class InitialCreate01
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -41,10 +41,6 @@ namespace WebAdmin.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("TEXT")
                         .HasColumnName("姓名");
-
-                    b.Property<bool>("Status")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("状态");
 
                     b.HasKey("Id");
 

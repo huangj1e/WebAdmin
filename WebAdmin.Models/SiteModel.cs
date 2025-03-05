@@ -34,21 +34,21 @@ public class SiteModel : BindableBase
     }
 
     [Column("网址")]
-    public string Address
+    public string? Address
     {
         get { return _address; }
         set { SetProperty(ref _address, value); }
     }
 
     [Column("姓名")]
-    public string Name
+    public string? Name
     {
         get { return _name; }
         set { SetProperty(ref _name, value); }
     }
 
     [Column("描述")]
-    public string Description
+    public string? Description
     {
         get { return _description; }
         set { SetProperty(ref _description, value); }

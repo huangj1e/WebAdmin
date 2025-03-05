@@ -7,7 +7,7 @@ using WebAdmin.Db;
 
 #nullable disable
 
-namespace WebAdmin.Migrations
+namespace WebAdmin.Db.Migrations
 {
     [DbContext(typeof(WebDb))]
     partial class WebDbModelSnapshot : ModelSnapshot

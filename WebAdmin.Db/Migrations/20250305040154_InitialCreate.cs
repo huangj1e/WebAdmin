@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace WebAdmin.Migrations
+namespace WebAdmin.Db.Migrations
 {
     public partial class InitialCreate : Migration
     {
@@ -15,11 +15,10 @@ namespace WebAdmin.Migrations
                 {
                     任务Id = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    网址 = table.Column<string>(type: "TEXT", nullable: true),
-                    姓名 = table.Column<string>(type: "TEXT", nullable: true),
-                    描述 = table.Column<string>(type: "TEXT", nullable: true),
-                    最后扫描时间 = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    状态 = table.Column<bool>(type: "INTEGER", nullable: false)
+                    网址 = table.Column<string>(type: "TEXT", nullable: false),
+                    姓名 = table.Column<string>(type: "TEXT", nullable: false),
+                    描述 = table.Column<string>(type: "TEXT", nullable: false),
+                    最后扫描时间 = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {

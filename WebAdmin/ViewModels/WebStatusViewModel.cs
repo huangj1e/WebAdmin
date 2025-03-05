@@ -117,20 +117,20 @@ public class WebStatusViewModel : BindableBase
 
     }
 
-
-
-
-
     public async Task RefreshDataAsync()
     {
         TimeValue = 0;
         IsOpen = true;
 
-        var sites = await webDb.SiteModels.ToListAsync();
         SiteModels.Clear();
 
+        var sites = await webDb.SiteModels.ToListAsync();
+
+        // 清除 sites 中所有的描述
+        sites.ForEach(site => site.Description = string.Empty);
         // 创建所有的 UpdateStatus 任务
         var updateTasks = sites.Select(site => site.UpdateStatus()).ToList();
+
 
         // 并发执行所有 UpdateStatus 任务
         await Task.WhenAll(updateTasks);
@@ -140,6 +140,8 @@ public class WebStatusViewModel : BindableBase
         {
             SiteModels.Add(site);
         }
+
+        await webDb.SaveChangesAsync();
 
         IsOpen = false;
     }

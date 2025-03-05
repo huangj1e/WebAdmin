@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -10,6 +11,23 @@ namespace WebAdmin.Units;
 public static class Tools
 {
     public static string Https = "https://";
+    static public string DbName = "WebAdmin20250304";
+
+    public static string GetAndCreatDbFilePath()
+    {
+        var folder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        string appName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
+        var qrFolder = Path.Combine(folder, appName);
+
+        // 如果 IdentifyQRcodeDownload 文件夹不存在，则创建它
+        if (!Directory.Exists(qrFolder))
+            Directory.CreateDirectory(qrFolder);
+
+        string DbPath = Path.Combine(qrFolder, $"{DbName}.db");
+        return DbPath;
+    }
+
+
 
     public static string CorrectWebsite(string url)
     {

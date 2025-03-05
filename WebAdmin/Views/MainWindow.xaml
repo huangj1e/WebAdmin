@@ -7,12 +7,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:viewmodels="clr-namespace:WebAdmin.ViewModels"
+    xmlns:ws="https://schemas.elecho.dev/wpfsuite"
     Title="{Binding Title}"
     Width="1280"
-    Height="960"
+    Height="960" Background="Transparent"
     d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel}"
     prism:ViewModelLocator.AutoWireViewModel="True"
-    Background="#333"
+    ws:WindowOption.Backdrop="Acrylic"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <Grid>

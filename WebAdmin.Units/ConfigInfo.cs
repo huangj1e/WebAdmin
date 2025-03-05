@@ -8,5 +8,4 @@ namespace WebAdmin.Units;
 
 static public class ConfigInfo
 {
-    static public string DbName = "WebAdmin20250304";
 }
