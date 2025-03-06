@@ -24,8 +24,15 @@ public static class Tools
     public static string GetAndCreatDbFilePath()
     {
         var folder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-        string appName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
+        string? appName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
+        if (string.IsNullOrWhiteSpace(appName))
+        {
+            _ = new Exception("应用名称不能为空");
+        }
+
+#pragma warning disable CS8604 // 引用类型参数可能为 null。
         var qrFolder = Path.Combine(folder, appName);
+#pragma warning restore CS8604 // 引用类型参数可能为 null。
 
         // 如果 IdentifyQRcodeDownload 文件夹不存在，则创建它
         if (!Directory.Exists(qrFolder))

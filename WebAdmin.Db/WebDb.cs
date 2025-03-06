@@ -14,9 +14,9 @@ namespace WebAdmin.Db;
 /// </summary>
 public class WebDb : DbContext
 {
-    public DbSet<SiteModel> SiteModels { get; set; }
+    public DbSet<SiteModel>? SiteModels { get; set; }
 
-    public string DbPath { get; set; }
+    public string? DbPath { get; set; }
 
 
     public WebDb()

@@ -20,9 +20,9 @@ namespace WebAdmin.Models;
 public class SiteModel : BindableBase
 {
     private long _id;
-    private string _address;
-    private string _name;
-    private string _description;
+    private string? _address;
+    private string? _name;
+    private string? _description;
     private DateTime _lastScanTime;
     private bool _status;
 
