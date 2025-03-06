@@ -14,6 +14,9 @@ using WebAdmin.Units;
 
 namespace WebAdmin.Models;
 
+/// <summary>
+/// 网站模型
+/// </summary>
 public class SiteModel : BindableBase
 {
     private long _id;
@@ -70,6 +73,10 @@ public class SiteModel : BindableBase
         set { SetProperty(ref _status, value); }
     }
 
+    /// <summary>
+    /// 更新状态
+    /// </summary>
+    /// <returns></returns>
     public async  Task UpdateStatus()
     {
         if (Address != null)

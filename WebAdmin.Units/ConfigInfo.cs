@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace WebAdmin.Units;
 
+/// <summary>
+/// 配置信息
+/// </summary>
 static public class ConfigInfo
 {
 }

@@ -23,6 +23,9 @@ public class WebStatusViewModel : BindableBase
     public readonly WebDb webDb;
     private bool _isOpen;
 
+    /// <summary>
+    /// 弹窗是否打开
+    /// </summary>
     public bool IsOpen
     {
         get { return _isOpen; }
@@ -31,6 +34,9 @@ public class WebStatusViewModel : BindableBase
 
     private string _messageString;
 
+    /// <summary>
+    /// 消息字符串
+    /// </summary>
     public string MessageString
     {
         get { return _messageString; }
@@ -39,6 +45,9 @@ public class WebStatusViewModel : BindableBase
 
     private int _timeValue;
 
+    /// <summary>
+    /// 时间值
+    /// </summary>
     public int TimeValue
     {
         get { return _timeValue; }
@@ -46,6 +55,9 @@ public class WebStatusViewModel : BindableBase
     }
 
     private ObservableCollection<SiteModel> _siteModels;
+    /// <summary>
+    /// 网站集合
+    /// </summary>
     public ObservableCollection<SiteModel> SiteModels
     {
         get { return _siteModels; }
@@ -60,6 +72,9 @@ public class WebStatusViewModel : BindableBase
     }
     Timer _timer;
 
+    /// <summary>
+    /// 开始计时
+    /// </summary>
     private void StartTimer()
     {
         _timer = new Timer(1000); // 设置定时间隔为1秒
@@ -67,26 +82,41 @@ public class WebStatusViewModel : BindableBase
         _timer.AutoReset = true;
         _timer.Enabled = true;
     }
-
+    /// <summary>
+    /// 定时器事件
+    /// </summary>
+    /// <param name="source"></param>
+    /// <param name="e"></param>
     private void OnTimedEvent(Object source, ElapsedEventArgs e)
     {
         TimeValue++;
     }
 
+    /// <summary>
+    /// 从数据库中获取数据
+    /// </summary>
+    /// <returns></returns>
     private async Task GetDbAsync()
     {
         IsOpen = true;
         var list = await webDb.SiteModels.ToListAsync();
         list.ForEach(site => site.Description = string.Empty);
-        await webDb.SaveChangesAsync(); 
+        await webDb.SaveChangesAsync();
 
         SiteModels = new ObservableCollection<SiteModel>(await webDb.SiteModels.ToListAsync()); // 异步加载数据库数据
         IsOpen = false;
     }
 
     private DelegateCommand<object> _openUrlCommand;
+    /// <summary>
+    /// 打开网址命令
+    /// </summary>
     public DelegateCommand<object> OpenUrlCommand => _openUrlCommand ??= new DelegateCommand<object>(ExecuteOpenUrlCommand);
 
+    /// <summary>
+    /// 打开网址命令
+    /// </summary>
+    /// <param name="obj"></param>
     private void ExecuteOpenUrlCommand(object obj)
     {
         if (obj is not SiteModel siteModel)
@@ -100,8 +130,15 @@ public class WebStatusViewModel : BindableBase
 
 
     private DelegateCommand<object> _copyCommand;
+    /// <summary>
+    /// 复制网址命令
+    /// </summary>
     public DelegateCommand<object> CopyCommand => _copyCommand ??= new DelegateCommand<object>(ExecuteCopyCommand);
 
+    /// <summary>
+    /// 复制网址
+    /// </summary>
+    /// <param name="obj"></param>
     void ExecuteCopyCommand(object obj)
     {
         if (obj is not SiteModel siteModel)
@@ -117,6 +154,10 @@ public class WebStatusViewModel : BindableBase
 
     }
 
+    /// <summary>
+    /// 刷新数据
+    /// </summary>
+    /// <returns></returns>
     public async Task RefreshDataAsync()
     {
         TimeValue = 0;
@@ -145,8 +186,11 @@ public class WebStatusViewModel : BindableBase
 
         IsOpen = false;
     }
-    private DelegateCommand _updateCommand;
-    public DelegateCommand UpdateCommand => _updateCommand ??= new DelegateCommand(async () => await RefreshDataAsync());
+    private DelegateCommand _refreshDataAsyncCommand;
+    /// <summary>
+    /// 刷新数据命令
+    /// </summary>
+    public DelegateCommand RefreshDataAsyncCommand => _refreshDataAsyncCommand ??= new DelegateCommand(async () => await RefreshDataAsync());
 
 
 }

@@ -17,12 +17,19 @@ namespace WebAdmin;
 public partial class App
 {
     IContainerRegistry containerRegistry;
+    /// <summary>
+    /// 创建主窗口
+    /// </summary>
+    /// <returns></returns>
     protected override Window CreateShell()
     {
         return Container.Resolve<MainWindow>();
 
     }
-
+    /// <summary>
+    /// 注册类型
+    /// </summary>
+    /// <param name="containerRegistry"></param>
     protected override void RegisterTypes(IContainerRegistry containerRegistry)
     {
         containerRegistry.Register<WebDb>(c =>
@@ -38,6 +45,9 @@ public partial class App
         this.containerRegistry = containerRegistry;
     }
 
+    /// <summary>
+    /// 初始化
+    /// </summary>
     protected override void OnInitialized()
     {
         base.OnInitialized();

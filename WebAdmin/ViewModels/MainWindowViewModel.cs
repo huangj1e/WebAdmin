@@ -6,6 +6,9 @@ using WebAdmin.Views;
 
 namespace WebAdmin.ViewModels;
 
+/// <summary>
+/// MainWindowViewModel
+/// </summary>
 public class MainWindowViewModel : BindableBase
 {
     private string _title = "WebAdmin";

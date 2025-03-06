@@ -108,7 +108,7 @@
                 VerticalAlignment="Center">
                 <Button
                     VerticalAlignment="Bottom"
-                    Command="{Binding UpdateCommand}"
+                    Command="{Binding RefreshDataAsyncCommand}"
                     Content="刷新" />
                 <TextBlock
                     Margin="0,5,0,0"

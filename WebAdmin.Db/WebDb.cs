@@ -9,6 +9,9 @@ using WebAdmin.Units;
 
 namespace WebAdmin.Db;
 
+/// <summary>
+/// 数据库
+/// </summary>
 public class WebDb : DbContext
 {
     public DbSet<SiteModel> SiteModels { get; set; }
