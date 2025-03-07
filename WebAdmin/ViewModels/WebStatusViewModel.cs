@@ -28,7 +28,7 @@ public class WebStatusViewModel : BindableBase
         set { SetProperty(ref _dataGridVisibility, value); }
     }
 
-    private Visibility _cardListVisibility = Visibility.Visible ;
+    private Visibility _cardListVisibility = Visibility.Visible;
 
     public Visibility CardListVisibility
     {
@@ -37,12 +37,11 @@ public class WebStatusViewModel : BindableBase
     }
 
     private DelegateCommand<string> _sitchCardAndDataGridCommand;
-    public DelegateCommand<string> SitchCardAndDataGridCommand =>
-        _sitchCardAndDataGridCommand ?? (_sitchCardAndDataGridCommand = new DelegateCommand<string>(ExecuteSitchCardAndDataGridCommand));
+    public DelegateCommand<string> SitchCardAndDataGridCommand => _sitchCardAndDataGridCommand ??= new DelegateCommand<string>(ExecuteSitchCardAndDataGridCommand);
 
     void ExecuteSitchCardAndDataGridCommand(string flag)
     {
-        if(flag == "Card")
+        if (flag == "Card")
         {
             CardListVisibility = Visibility.Visible;
             DataGridVisibility = Visibility.Collapsed;
@@ -105,6 +104,7 @@ public class WebStatusViewModel : BindableBase
         this.webDb = webDb;
         _ = GetDbAsync();
         StartTimer();
+        RefreshDataAsync();
     }
     Timer _timer;
 
@@ -212,6 +212,7 @@ public class WebStatusViewModel : BindableBase
         // 并发执行所有 UpdateStatus 任务
         await Task.WhenAll(updateTasks);
 
+        sites.Sort((a, b) => a.Status.CompareTo(b.Status));
         // 更新 UI
         foreach (var site in sites)
         {

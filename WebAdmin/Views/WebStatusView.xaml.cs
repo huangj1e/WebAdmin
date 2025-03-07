@@ -1,7 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
 using WebAdmin.Models;
 using WebAdmin.ViewModels;
 
@@ -53,4 +56,5 @@ public partial class WebStatusView : UserControl
             dataGrid.ScrollIntoView(dataGrid.SelectedItem);
         }
     }
+
 }

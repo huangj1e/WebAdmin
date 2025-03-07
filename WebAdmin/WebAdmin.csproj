@@ -9,6 +9,7 @@
     <Content Include="WebAdminLogo.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\WebAdmin.Controls\WebAdmin.Controls.csproj" />
     <ProjectReference Include="..\WebAdmin.Core\WebAdmin.Core.csproj" />
     <ProjectReference Include="..\WebAdmin.Db\WebAdmin.Db.csproj" />
     <ProjectReference Include="..\WebAdmin.Models\WebAdmin.Models.csproj" />

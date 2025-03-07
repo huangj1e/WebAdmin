@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:WebAdmin.Controls;assembly=WebAdmin.Controls"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
@@ -46,19 +47,76 @@
                 <RowDefinition
                     Height="*" />
                 <RowDefinition
-                    Height="60" />
+                    Height="70" />
             </Grid.RowDefinitions>
             <Grid>
                 <!--  卡片  -->
-                <ScrollViewer
+                <ListBox
+                    Background="Transparent"
+                    ItemsSource="{Binding SiteModels}"
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                    ScrollViewer.VerticalScrollBarVisibility="Visible"
+                    VirtualizingPanel.IsVirtualizing="True"
+                    VirtualizingPanel.VirtualizationMode="Standard"
                     Visibility="{Binding CardListVisibility}">
-                    <ItemsControl
-                        ItemsSource="{Binding SiteModels}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
+
+                    <!--  自定义 ItemContainerStyle  -->
+                    <ListBox.ItemContainerStyle>
+                        <Style
+                            TargetType="ListBoxItem">
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="BorderThickness" Value="0" />
+                            <Setter Property="Margin" Value="0" />
+                            <Setter Property="Padding" Value="0" />
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                            <!--  取消选中虚线框  -->
+
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate
+                                        TargetType="ListBoxItem">
+                                        <Border
+                                            Background="{TemplateBinding Background}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}">
+                                            <ContentPresenter />
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+
+                            <Style.Triggers>
+                                <!--  鼠标悬浮时无背景  -->
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="Transparent" />
+                                </Trigger>
+                                <!--  选中样式  -->
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="Transparent" />
+                                    <Setter Property="BorderBrush" Value="DarkRed" />
+                                    <Setter Property="BorderThickness" Value="0" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+
+                    <!--  ItemTemplate  -->
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <materialDesign:TransitioningContent
+                                OpeningEffectsOffset="{materialDesign:IndexedItemOffsetMultiplier 0:0:0.03}">
+                                <materialDesign:TransitioningContent.OpeningEffects>
+                                    <materialDesign:TransitionEffect
+                                        Kind="FadeIn" />
+                                    <materialDesign:TransitionEffect
+                                        Kind="SlideInFromRight" />
+                                </materialDesign:TransitioningContent.OpeningEffects>
+
                                 <materialDesign:Card
-                                    Height="70"
-                                    MinWidth="380"
+                                    Width="380"
+                                    Height="120"
                                     Margin="5"
                                     materialDesign:ElevationAssist.Elevation="Dp4">
                                     <materialDesign:Card.Style>
@@ -69,11 +127,12 @@
                                                 <DataTrigger
                                                     Binding="{Binding Status}"
                                                     Value="True">
-                                                    <Setter Property="Background" Value="#111" />
+                                                    <Setter Property="Background" Value="{StaticResource MaterialDesignDarkSeparatorBackground}" />
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
                                     </materialDesign:Card.Style>
+
                                     <StackPanel
                                         Margin="5"
                                         VerticalAlignment="Stretch">
@@ -112,81 +171,113 @@
                                                         Text="{Binding Name}" />
                                                 </StackPanel>
                                             </Button>
+                                            <Rectangle
+                                                Height="1.5"
+                                                VerticalAlignment="Bottom"
+                                                Fill="Gray"
+                                                Opacity=".3" />
                                         </Grid>
-                                        <TextBlock
-                                            Height="50"
-                                            FontSize="16"
-                                            Foreground="White"
-                                            Text="{Binding Description}"
-                                            TextWrapping="Wrap" />
+
+                                        <StackPanel
+                                            Margin="5,0">
+                                            <TextBlock
+                                                Height="50"
+                                                FontSize="16"
+                                                Foreground="White"
+                                                Text="{Binding Description}"
+                                                TextWrapping="Wrap" />
+                                            <TextBlock
+                                                FontSize="16"
+                                                Foreground="#999"
+                                                Text="{Binding LastScanTime}" />
+                                            <Canvas
+                                                Panel.ZIndex="-9">
+                                                <TextBlock
+                                                    Canvas.Right="-10"
+                                                    Canvas.Bottom="-20"
+                                                    FontSize="72"
+                                                    FontWeight="Bold"
+                                                    Opacity=".05"
+                                                    Text="{Binding Id, StringFormat={}{0:D3}}"
+                                                    TextAlignment="Right" />
+                                            </Canvas>
+                                        </StackPanel>
                                     </StackPanel>
                                 </materialDesign:Card>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                    </ItemsControl>
 
-                </ScrollViewer>
+                            </materialDesign:TransitioningContent>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+
+                    <!--  ItemsPanel: 使用 WrapPanel 布局  -->
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                            <!--<local:VirtualizingWrapPanel />-->
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                </ListBox>
+
                 <!--  表格  -->
-                <DataGrid Loaded="dataGrid_Loaded"
-                    x:Name="dataGrid"
-                    AutoGenerateColumns="False"
-                    ItemsSource="{Binding SiteModels}"
-                    RowEditEnding="DataGrid_RowEditEnding"
+                <materialDesign:TransitioningContent
+                    OpeningEffect="{materialDesign:TransitionEffect Kind=FadeIn}"
                     Visibility="{Binding DataGridVisibility}">
+                    <DataGrid
+                        x:Name="dataGrid"
+                        AutoGenerateColumns="False"
+                        ItemsSource="{Binding SiteModels}"
+                        Loaded="dataGrid_Loaded"
+                        RowEditEnding="DataGrid_RowEditEnding">
 
-                    <DataGrid.Columns>
-                        <DataGridTextColumn
-                            Binding="{Binding Id, StringFormat={}{0:D4}}"
-                            Header="编号"
-                            IsReadOnly="True" />
-                        <DataGridTemplateColumn
-                            Header="操作">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <StackPanel
-                                        Orientation="Horizontal">
-                                        <Button
-                                            Margin="0,0,5,0"
-                                            Command="{Binding DataContext.OpenUrlCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                                            CommandParameter="{Binding}"
-                                            Content="{materialDesign:PackIcon CursorPointer}" />
-                                        <Button
-                                            Command="{Binding DataContext.CopyCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                                            CommandParameter="{Binding}"
-                                            Content="{materialDesign:PackIcon ContentCopy}" />
-                                    </StackPanel>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn
+                                Binding="{Binding Id, StringFormat={}{0:D4}}"
+                                Header="编号"
+                                IsReadOnly="True" />
+                            <DataGridTemplateColumn
+                                Header="操作">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel
+                                            Orientation="Horizontal">
+                                            <Button
+                                                Margin="0,0,5,0"
+                                                Command="{Binding DataContext.OpenUrlCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                CommandParameter="{Binding}"
+                                                Content="{materialDesign:PackIcon CursorPointer}" />
+                                            <Button
+                                                Command="{Binding DataContext.CopyCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                CommandParameter="{Binding}"
+                                                Content="{materialDesign:PackIcon ContentCopy}" />
+                                        </StackPanel>
 
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
 
-                        <DataGridTextColumn
-                            Binding="{Binding Address}"
-                            Header="网址" />
-                        <DataGridTextColumn
-                            Binding="{Binding Name}"
-                            Header="姓名" />
+                            <DataGridTextColumn
+                                Binding="{Binding Address}"
+                                Header="网址" />
+                            <DataGridTextColumn
+                                Binding="{Binding Name}"
+                                Header="姓名" />
 
-                        <DataGridCheckBoxColumn
-                            Binding="{Binding Status}"
-                            Header="状态"
-                            IsReadOnly="True" />
-                        <DataGridTextColumn
-                            Binding="{Binding LastScanTime}"
-                            Header="最后扫描时间"
-                            IsReadOnly="True" />
-                        <DataGridTextColumn
-                            MinWidth="300"
-                            Binding="{Binding Description}"
-                            Header="错误描述"
-                            IsReadOnly="True" />
-                    </DataGrid.Columns>
-                </DataGrid>
+                            <DataGridCheckBoxColumn
+                                Binding="{Binding Status}"
+                                Header="状态"
+                                IsReadOnly="True" />
+                            <DataGridTextColumn
+                                Binding="{Binding LastScanTime}"
+                                Header="最后扫描时间"
+                                IsReadOnly="True" />
+                            <DataGridTextColumn
+                                MinWidth="300"
+                                Binding="{Binding Description}"
+                                Header="错误描述"
+                                IsReadOnly="True" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </materialDesign:TransitioningContent>
             </Grid>
             <StackPanel
                 Grid.Row="1"
@@ -210,11 +301,17 @@
                         Command="{Binding RefreshDataAsyncCommand}"
                         Content="刷新" />
                 </UniformGrid>
-                <TextBlock
-                    Margin="0,5,0,0"
-                    Foreground="White"
-                    Text="{Binding MessageString}" />
+                <materialDesign:TransitioningContent
+                    OpeningEffect="{materialDesign:TransitionEffect Kind=SlideInFromRight}"
+                    Visibility="Visible">
+                    <TextBlock
+                        Margin="0,5,0,0"
+                        Foreground="White"
+                        Text="{Binding MessageString}" />
+                </materialDesign:TransitioningContent>
+
             </StackPanel>
+
         </Grid>
     </materialDesign:DialogHost>
 </UserControl>
