@@ -10,10 +10,12 @@
     xmlns:ws="https://schemas.elecho.dev/wpfsuite"
     Title="{Binding Title}"
     Width="1280"
-    Height="960" Background="Transparent"
+    Height="960"
     d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel}"
     prism:ViewModelLocator.AutoWireViewModel="True"
     ws:WindowOption.Backdrop="Acrylic"
+    ws:WindowOption.IsDarkMode="True"
+    Background="Transparent"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <Grid>

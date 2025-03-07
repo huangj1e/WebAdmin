@@ -35,7 +35,6 @@
                         Style="{StaticResource MaterialDesignCircularProgressBar}"
                         Value="0" />
                 </Grid>
-
                 <Button
                     Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
                     Content="取消"
@@ -49,67 +48,168 @@
                 <RowDefinition
                     Height="60" />
             </Grid.RowDefinitions>
-            <!--  表格  -->
-            <DataGrid
-                AutoGenerateColumns="False"
-                ItemsSource="{Binding SiteModels}"
-                RowEditEnding="DataGrid_RowEditEnding">
-                <DataGrid.Columns>
-                    <DataGridTextColumn
-                        Binding="{Binding Id, StringFormat={}{0:D4}}"
-                        Header="编号"
-                        IsReadOnly="True" />
-                    <DataGridTemplateColumn
-                        Header="操作">
-                        <DataGridTemplateColumn.CellTemplate>
+            <Grid>
+                <!--  卡片  -->
+                <ScrollViewer
+                    Visibility="{Binding CardListVisibility}">
+                    <ItemsControl
+                        ItemsSource="{Binding SiteModels}">
+                        <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <StackPanel
-                                    Orientation="Horizontal">
-                                    <Button
-                                        Margin="0,0,5,0"
-                                        Command="{Binding DataContext.OpenUrlCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                                        CommandParameter="{Binding}"
-                                        Content="{materialDesign:PackIcon CursorPointer}" />
-                                    <Button
-                                        Command="{Binding DataContext.CopyCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                                        CommandParameter="{Binding}"
-                                        Content="{materialDesign:PackIcon ContentCopy}" />
-                                </StackPanel>
-
+                                <materialDesign:Card
+                                    Height="70"
+                                    MinWidth="380"
+                                    Margin="5"
+                                    materialDesign:ElevationAssist.Elevation="Dp4">
+                                    <materialDesign:Card.Style>
+                                        <Style
+                                            TargetType="materialDesign:Card">
+                                            <Setter Property="Background" Value="DarkRed" />
+                                            <Style.Triggers>
+                                                <DataTrigger
+                                                    Binding="{Binding Status}"
+                                                    Value="True">
+                                                    <Setter Property="Background" Value="#111" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </materialDesign:Card.Style>
+                                    <StackPanel
+                                        Margin="5"
+                                        VerticalAlignment="Stretch">
+                                        <Grid>
+                                            <Button
+                                                HorizontalAlignment="Left"
+                                                Command="{Binding DataContext.OpenUrlCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                CommandParameter="{Binding}"
+                                                FontFamily="Arial Black"
+                                                Style="{StaticResource MaterialDesignFlatSecondaryLightButton}"
+                                                ToolTip="打开网址">
+                                                <StackPanel
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="0,0,5,0"
+                                                        Kind="Web" />
+                                                    <TextBlock
+                                                        Text="{Binding Address}" />
+                                                </StackPanel>
+                                            </Button>
+                                            <Button
+                                                Margin="2.5,0,0,0"
+                                                HorizontalAlignment="Right"
+                                                Command="{Binding DataContext.CopyCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                CommandParameter="{Binding}"
+                                                FontFamily="Arial Narrow"
+                                                Style="{StaticResource MaterialDesignFlatSecondaryLightButton}"
+                                                ToolTip="复制网址">
+                                                <StackPanel
+                                                    MinWidth="80"
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Margin="0,0,5,0"
+                                                        Kind="CardAccountDetails" />
+                                                    <TextBlock
+                                                        Text="{Binding Name}" />
+                                                </StackPanel>
+                                            </Button>
+                                        </Grid>
+                                        <TextBlock
+                                            Height="50"
+                                            FontSize="16"
+                                            Foreground="White"
+                                            Text="{Binding Description}"
+                                            TextWrapping="Wrap" />
+                                    </StackPanel>
+                                </materialDesign:Card>
                             </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
 
-                    <DataGridTextColumn
-                        Binding="{Binding Address}"
-                        Header="网址" />
-                    <DataGridTextColumn
-                        Binding="{Binding Name}"
-                        Header="姓名" />
+                </ScrollViewer>
+                <!--  表格  -->
+                <DataGrid Loaded="dataGrid_Loaded"
+                    x:Name="dataGrid"
+                    AutoGenerateColumns="False"
+                    ItemsSource="{Binding SiteModels}"
+                    RowEditEnding="DataGrid_RowEditEnding"
+                    Visibility="{Binding DataGridVisibility}">
 
-                    <DataGridCheckBoxColumn
-                        Binding="{Binding Status}"
-                        Header="状态"
-                        IsReadOnly="True" />
-                    <DataGridTextColumn
-                        Binding="{Binding LastScanTime}"
-                        Header="最后扫描时间"
-                        IsReadOnly="True" />
-                    <DataGridTextColumn
-                        MinWidth="300"
-                        Binding="{Binding Description}"
-                        Header="错误描述"
-                        IsReadOnly="True" />
-                </DataGrid.Columns>
-            </DataGrid>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn
+                            Binding="{Binding Id, StringFormat={}{0:D4}}"
+                            Header="编号"
+                            IsReadOnly="True" />
+                        <DataGridTemplateColumn
+                            Header="操作">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel
+                                        Orientation="Horizontal">
+                                        <Button
+                                            Margin="0,0,5,0"
+                                            Command="{Binding DataContext.OpenUrlCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                            CommandParameter="{Binding}"
+                                            Content="{materialDesign:PackIcon CursorPointer}" />
+                                        <Button
+                                            Command="{Binding DataContext.CopyCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                            CommandParameter="{Binding}"
+                                            Content="{materialDesign:PackIcon ContentCopy}" />
+                                    </StackPanel>
+
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTextColumn
+                            Binding="{Binding Address}"
+                            Header="网址" />
+                        <DataGridTextColumn
+                            Binding="{Binding Name}"
+                            Header="姓名" />
+
+                        <DataGridCheckBoxColumn
+                            Binding="{Binding Status}"
+                            Header="状态"
+                            IsReadOnly="True" />
+                        <DataGridTextColumn
+                            Binding="{Binding LastScanTime}"
+                            Header="最后扫描时间"
+                            IsReadOnly="True" />
+                        <DataGridTextColumn
+                            MinWidth="300"
+                            Binding="{Binding Description}"
+                            Header="错误描述"
+                            IsReadOnly="True" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
             <StackPanel
                 Grid.Row="1"
                 Margin="5"
                 VerticalAlignment="Center">
-                <Button
-                    VerticalAlignment="Bottom"
-                    Command="{Binding RefreshDataAsyncCommand}"
-                    Content="刷新" />
+                <UniformGrid
+                    Columns="3">
+                    <Button
+                        Margin="2.5"
+                        Command="{Binding SitchCardAndDataGridCommand}"
+                        CommandParameter="Table"
+                        Content="表格" />
+                    <Button
+                        Margin="2.5"
+                        Command="{Binding SitchCardAndDataGridCommand}"
+                        CommandParameter="Card"
+                        Content="卡片"
+                        Style="{StaticResource MaterialDesignRaisedSecondaryLightButton}" />
+                    <Button
+                        Margin="2.5"
+                        Command="{Binding RefreshDataAsyncCommand}"
+                        Content="刷新" />
+                </UniformGrid>
                 <TextBlock
                     Margin="0,5,0,0"
                     Foreground="White"

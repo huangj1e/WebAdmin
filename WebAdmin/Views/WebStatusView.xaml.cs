@@ -17,6 +17,11 @@ public partial class WebStatusView : UserControl
         InitializeComponent();
     }
 
+    /// <summary>
+    /// 表格行编辑完成
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void DataGrid_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
     {
         if(e.Row.Item is SiteModel site)
@@ -32,5 +37,20 @@ public partial class WebStatusView : UserControl
             }
             context.SaveChanges();
         } 
+    }
+
+    /// <summary>
+    /// 表格加载完成
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void dataGrid_Loaded(object sender, System.Windows.RoutedEventArgs e)
+    {
+        // 表格加载完成后自动滑到最底部
+        if (dataGrid.Items.Count > 0)
+        {
+            dataGrid.SelectedItem = dataGrid.Items[dataGrid.Items.Count - 1];
+            dataGrid.ScrollIntoView(dataGrid.SelectedItem);
+        }
     }
 }

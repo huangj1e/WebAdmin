@@ -20,6 +20,42 @@ namespace WebAdmin.ViewModels;
 
 public class WebStatusViewModel : BindableBase
 {
+    private Visibility _dataGridVisibility = Visibility.Collapsed;
+
+    public Visibility DataGridVisibility
+    {
+        get { return _dataGridVisibility; }
+        set { SetProperty(ref _dataGridVisibility, value); }
+    }
+
+    private Visibility _cardListVisibility = Visibility.Visible ;
+
+    public Visibility CardListVisibility
+    {
+        get { return _cardListVisibility; }
+        set { SetProperty(ref _cardListVisibility, value); }
+    }
+
+    private DelegateCommand<string> _sitchCardAndDataGridCommand;
+    public DelegateCommand<string> SitchCardAndDataGridCommand =>
+        _sitchCardAndDataGridCommand ?? (_sitchCardAndDataGridCommand = new DelegateCommand<string>(ExecuteSitchCardAndDataGridCommand));
+
+    void ExecuteSitchCardAndDataGridCommand(string flag)
+    {
+        if(flag == "Card")
+        {
+            CardListVisibility = Visibility.Visible;
+            DataGridVisibility = Visibility.Collapsed;
+        }
+        else
+        {
+            CardListVisibility = Visibility.Collapsed;
+            DataGridVisibility = Visibility.Visible;
+        }
+    }
+
+
+
     public readonly WebDb webDb;
     private bool _isOpen;
 
