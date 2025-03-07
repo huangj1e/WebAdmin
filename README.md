@@ -1,6 +1,6 @@
 # WebAdmin
 
-运行迁移脚本的命令：
+杩愯杩佺Щ鑴氭湰鐨勫懡浠わ細
 ```PowerShell
 $env:DOTNET_RUNNING_IN_MIGRATION="true"
 dotnet ef migrations add InitMigration
