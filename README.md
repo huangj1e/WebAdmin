@@ -1,8 +1,7 @@
 # WebAdmin
 
-运行迁移脚本的命令：
-```PowerShell
-$env:DOTNET_RUNNING_IN_MIGRATION="true"
-dotnet ef migrations add InitMigration
-dotnet ef database update
-```
+此项目是一个基于.Net Core 6.0的Web网站监控系统
+只用于用于监控多个Web网站的运行状态
+
+不用打开浏览器，只需要在表格视图中添加需要监控的网站
+然后点击刷新按钮，即可查看网站的运行状态
