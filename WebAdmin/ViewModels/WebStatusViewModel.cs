@@ -36,22 +36,7 @@ public class WebStatusViewModel : BindableBase
         set { SetProperty(ref _cardListVisibility, value); }
     }
 
-    private DelegateCommand<string> _sitchCardAndDataGridCommand;
-    public DelegateCommand<string> SitchCardAndDataGridCommand => _sitchCardAndDataGridCommand ??= new DelegateCommand<string>(ExecuteSitchCardAndDataGridCommand);
 
-    void ExecuteSitchCardAndDataGridCommand(string flag)
-    {
-        if (flag == "Card")
-        {
-            CardListVisibility = Visibility.Visible;
-            DataGridVisibility = Visibility.Collapsed;
-        }
-        else
-        {
-            CardListVisibility = Visibility.Collapsed;
-            DataGridVisibility = Visibility.Visible;
-        }
-    }
 
 
 
@@ -157,7 +142,7 @@ public class WebStatusViewModel : BindableBase
     {
         if (obj is not SiteModel siteModel)
         {
-            MessageString = "未知的网站";
+            RefreshMessageVisibility("未知的网站");
             return;
         }
         string newUrl = Tools.CorrectWebsite(siteModel.Address);
@@ -179,16 +164,42 @@ public class WebStatusViewModel : BindableBase
     {
         if (obj is not SiteModel siteModel)
         {
-            MessageString = "未知的网站";
+            RefreshMessageVisibility("未知的网站");
             return;
         }
 
         if (string.IsNullOrEmpty(siteModel.Address)) return;
 
         Clipboard.SetDataObject(siteModel.Address);
-        MessageString = $"复制成功：{siteModel.Address}";
+        RefreshMessageVisibility($"复制成功：{siteModel.Address}");
 
     }
+
+    void RefreshMessageVisibility(string msg)
+    {
+        MessageString = msg;
+        MessageVisible = Visibility.Collapsed;
+        MessageVisible = Visibility.Visible;
+    }
+
+
+    private DelegateCommand<string> _sitchCardAndDataGridCommand;
+    public DelegateCommand<string> SitchCardAndDataGridCommand => _sitchCardAndDataGridCommand ??= new DelegateCommand<string>(ExecuteSitchCardAndDataGridCommand);
+
+    void ExecuteSitchCardAndDataGridCommand(string flag)
+    {
+        if (flag == "Card")
+        {
+            CardListVisibility = Visibility.Visible;
+            DataGridVisibility = Visibility.Collapsed;
+        }
+        else
+        {
+            CardListVisibility = Visibility.Collapsed;
+            DataGridVisibility = Visibility.Visible;
+        }
+    }
+
 
     /// <summary>
     /// 刷新数据
@@ -212,7 +223,19 @@ public class WebStatusViewModel : BindableBase
         // 并发执行所有 UpdateStatus 任务
         await Task.WhenAll(updateTasks);
 
-        sites.Sort((a, b) => a.Status.CompareTo(b.Status));
+        sites.Sort((a, b) =>
+        {
+            // 首先根据 Status 排序
+            int statusComparison = a.Status.CompareTo(b.Status);
+
+            // 如果 Status 相同，再根据 Id 排序
+            if (statusComparison == 0)
+            {
+                return a.Id.CompareTo(b.Id);
+            }
+
+            return statusComparison;
+        });
         // 更新 UI
         foreach (var site in sites)
         {
@@ -229,5 +252,11 @@ public class WebStatusViewModel : BindableBase
     /// </summary>
     public DelegateCommand RefreshDataAsyncCommand => _refreshDataAsyncCommand ??= new DelegateCommand(async () => await RefreshDataAsync());
 
+    private Visibility _messageVisible;
 
+    public Visibility MessageVisible
+    {
+        get { return _messageVisible; }
+        set { SetProperty(ref _messageVisible, value); }
+    }
 }
