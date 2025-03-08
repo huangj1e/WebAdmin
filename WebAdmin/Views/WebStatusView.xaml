@@ -52,6 +52,8 @@
             <Grid>
                 <!--  卡片  -->
                 <ListBox
+                    d:ItemsSource="{d:SampleData ItemCount=5}"
+                    d:Visibility="Visible"
                     Background="Transparent"
                     ItemsSource="{Binding SiteModels}"
                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
@@ -174,7 +176,8 @@
                                                 TextWrapping="Wrap" />
                                             <TextBlock
                                                 FontSize="16"
-                                                Foreground="Gray"
+                                                Foreground="White"
+                                                Opacity=".4"
                                                 Text="{Binding LastScanTime}" />
                                             <Canvas
                                                 Panel.ZIndex="-19">
@@ -242,11 +245,11 @@
                     Visibility="{Binding DataGridVisibility}">
                     <DataGrid
                         x:Name="dataGrid"
+                        d:ItemsSource="{d:SampleData ItemCount=5}"
                         AutoGenerateColumns="False"
                         ItemsSource="{Binding SiteModels}"
                         Loaded="dataGrid_Loaded"
                         RowEditEnding="DataGrid_RowEditEnding">
-
                         <DataGrid.Columns>
                             <DataGridTextColumn
                                 Binding="{Binding Id, StringFormat={}{0:D4}}"
@@ -262,24 +265,23 @@
                                                 Margin="0,0,5,0"
                                                 Command="{Binding DataContext.OpenUrlCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
                                                 CommandParameter="{Binding}"
-                                                Content="{materialDesign:PackIcon CursorPointer}" />
+                                                Content="{materialDesign:PackIcon CursorPointer}"
+                                                Style="{StaticResource MaterialDesignFlatSecondaryLightButton}" />
                                             <Button
                                                 Command="{Binding DataContext.CopyCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
                                                 CommandParameter="{Binding}"
-                                                Content="{materialDesign:PackIcon ContentCopy}" />
+                                                Content="{materialDesign:PackIcon ContentCopy}"
+                                                Style="{StaticResource MaterialDesignFlatSecondaryLightButton}" />
                                         </StackPanel>
-
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-
                             <DataGridTextColumn
                                 Binding="{Binding Address}"
                                 Header="网址" />
                             <DataGridTextColumn
                                 Binding="{Binding Name}"
                                 Header="姓名" />
-
                             <DataGridCheckBoxColumn
                                 Binding="{Binding Status}"
                                 Header="状态"
@@ -321,7 +323,7 @@
                         CommandParameter="Table"
                         Content="{materialDesign:PackIcon Kind=TableLarge,
                                                           Size=25}"
-                        Style="{StaticResource MaterialDesignFloatingActionDarkButton}" />
+                        Style="{StaticResource MaterialDesignFloatingActionSecondaryLightButton}" />
                     <Button
                         Margin="2.5"
                         Command="{Binding SitchCardAndDataGridCommand}"
@@ -334,7 +336,7 @@
                         Command="{Binding RefreshDataAsyncCommand}"
                         Content="{materialDesign:PackIcon Kind=Refresh,
                                                           Size=25}"
-                        Style="{StaticResource MaterialDesignFloatingActionDarkButton}" />
+                        Style="{StaticResource MaterialDesignFloatingActionLightButton}" />
 
                 </StackPanel>
             </Grid>
